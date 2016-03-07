@@ -26,7 +26,7 @@
 mkdir -p <%= ssh_path %>
 
 cat << EOF >> <%= ssh_path %>/authorized_keys
-<%= @host.params['remote_execution_ssh_keys'].join("\n") %>
+<%= @host.params['remote_execution_ssh_keys'] %>
 EOF
 
 chmod 700 <%= ssh_path %>
