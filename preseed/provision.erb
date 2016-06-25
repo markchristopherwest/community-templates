@@ -11,6 +11,8 @@ oses:
   proxy_string = @host.params['http-proxy'] ? " http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
   puppet_enabled = pm_set || @host.param_true?('force-puppet')
   salt_enabled = @host.params['salt_master'] ? true : false
+  upstream_mirror = @host.params['upstream_mirror'] 
+  upstream_path = @host.params['upstream_path']
 %>
 # Locale
 d-i debian-installer/locale string <%= @host.params['lang'] || 'en_US' %>
@@ -50,8 +52,9 @@ d-i hw-detect/load_firmware boolean true
 
 # Mirror settings
 d-i mirror/country string manual
-d-i mirror/http/hostname string <%= @preseed_server %>
-d-i mirror/http/directory string <%= @preseed_path %>
+d-i mirror/http/hostname string <%= @upstream_mirror %>
+d-i mirror/http/mirror string <%= @host.params['upstream_mirror'] %>
+d-i mirror/http/directory string <%= @upstream_path %>
 d-i mirror/http/proxy string<%= proxy_string %>
 d-i mirror/codename string <%= @host.operatingsystem.release_name %>
 d-i mirror/suite string <%= @host.operatingsystem.release_name %>
